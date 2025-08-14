@@ -2,7 +2,7 @@ import json
 import os
 from typing import Any, Dict, List, Optional
 
-from openai import OpenAI
+from openai import BadRequestError, OpenAI
 
 from agent.pdf_rag import build_context_snippet
 from agent.web_tools import search_web
@@ -80,7 +80,7 @@ def _call_tool(name: str, arguments_json: str) -> str:
     return json.dumps({"error": f"Unknown tool {name}"})
 
 
-def chat_with_tools(question: str, temperature: float = 0.2) -> str:
+def chat_with_tools(question: str, temperature: Optional[float] = 0.2) -> str:
     client = _get_openai_client()
     model = _get_model()
 
@@ -94,13 +94,25 @@ def chat_with_tools(question: str, temperature: float = 0.2) -> str:
     # Try Chat Completions with function-calling (most robust for tool loops)
     for _ in range(3):  # allow up to 3 tool iterations
         try:
-            resp = client.chat.completions.create(
-                model=model,
-                temperature=temperature,
-                messages=messages,
-                tools=tools,
-                tool_choice="auto",
-            )
+            kwargs: Dict[str, Any] = {
+                "model": model,
+                "messages": messages,
+                "tools": tools,
+                "tool_choice": "auto",
+            }
+            if temperature is not None:
+                kwargs["temperature"] = temperature
+            resp = client.chat.completions.create(**kwargs)
+        except BadRequestError as e:
+            # Some models only support the default temperature; retry without it
+            if "temperature" in str(e) and "default" in str(e):
+                kwargs.pop("temperature", None)
+                try:
+                    resp = client.chat.completions.create(**kwargs)
+                except Exception as e2:
+                    return f"OpenAI API error: {e2}"
+            else:
+                return f"OpenAI API error: {e}"
         except Exception as e:
             # Final fallback: return error
             return f"OpenAI API error: {e}"
