@@ -16,6 +16,7 @@ pip install -r /workspace/requirements.txt
 ```bash
 cp /workspace/.env.example /workspace/.env
 # edit /workspace/.env to add OPENAI_API_KEY (and optional search keys)
+# optional: adjust OPENAI_TOOL_LOOP_LIMIT to allow more tool calls (default 6)
 ```
 
 ### Index the PDF
@@ -33,4 +34,4 @@ python /workspace/main.py ask --q "Summarize the core services discussed in the 
 python /workspace/main.py test
 ```
 
-Data is stored under `/workspace/data`.
+Data is stored under `data/` in the project root.
