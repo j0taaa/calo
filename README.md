@@ -16,6 +16,7 @@ pip install -r /workspace/requirements.txt
 ```bash
 cp /workspace/.env.example /workspace/.env
 # edit /workspace/.env to add OPENAI_API_KEY (and optional search keys)
+# optional: adjust OPENAI_TOOL_LOOP_LIMIT to allow more tool calls (default 6)
 ```
 
 ### Index the PDF
