@@ -51,7 +51,8 @@ def cmd_test() -> None:
 
 
 if __name__ == "__main__":
-    load_dotenv(dotenv_path="/workspace/.env", override=True)
+    # Load environment variables from a `.env` file in the project root
+    load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), ".env"), override=True)
 
     parser = argparse.ArgumentParser(description="GPT-5 Agent CLI")
     sub = parser.add_subparsers(dest="cmd")
