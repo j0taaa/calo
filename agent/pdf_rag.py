@@ -2,14 +2,16 @@ import json
 import os
 import re
 from dataclasses import dataclass
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 import fitz  # PyMuPDF
 import requests
 from rank_bm25 import BM25Okapi
 from tqdm import tqdm
 
-DATA_DIR = "/workspace/data"
+# Resolve the project root so data paths work no matter where the code runs
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 PDF_PATH = os.path.join(DATA_DIR, "hcip_cloud_service_solutions_architect_v3.pdf")
 INDEX_DIR = os.path.join(DATA_DIR, "pdf_index")
 INDEX_JSON = os.path.join(INDEX_DIR, "index.json")

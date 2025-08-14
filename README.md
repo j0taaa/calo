@@ -34,4 +34,4 @@ python /workspace/main.py ask --q "Summarize the core services discussed in the 
 python /workspace/main.py test
 ```
 
-Data is stored under `/workspace/data`.
+Data is stored under `data/` in the project root.
