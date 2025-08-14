@@ -91,8 +91,10 @@ def chat_with_tools(question: str, temperature: Optional[float] = 0.2) -> str:
 
     tools = _tool_schemas()
 
+    loop_limit = int(os.getenv("OPENAI_TOOL_LOOP_LIMIT", "6"))
+
     # Try Chat Completions with function-calling (most robust for tool loops)
-    for _ in range(3):  # allow up to 3 tool iterations
+    for _ in range(loop_limit):  # allow configurable tool iterations
         try:
             kwargs: Dict[str, Any] = {
                 "model": model,
