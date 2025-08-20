@@ -3,7 +3,7 @@ const canvas = document.getElementById('canvas');
 const overlay = document.getElementById('overlay');
 const captureBtn = document.getElementById('capture-btn');
 
-navigator.mediaDevices.getUserMedia({ video: true })
+navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } } })
   .then(stream => {
     video.srcObject = stream;
   })
