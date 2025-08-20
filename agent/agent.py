@@ -59,7 +59,9 @@ def _system_prompt() -> str:
         "(2) search_web(query, num_results, region) for up-to-date info. "
         "Decide when to call tools. Prefer the PDF for questions directly related to the training material. "
         "Use web search for current events or when the PDF lacks the needed info. "
-        "When you use tools, synthesize a concise answer with citations as [PDF chunk <id>] or URLs."
+        "Even if you think you know the answer, research on the internet and consult the PDF before responding. "
+        "When you use tools, synthesize a concise answer with citations as [PDF chunk <id>] or URLs. "
+        "Provide only the final answer such as 'B', 'A,C,D', or 'True'/'False' with no explanation."
     )
 
 

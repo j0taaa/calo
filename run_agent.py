@@ -10,7 +10,13 @@ PDF_URL = (
 def main() -> None:
     question = " ".join(sys.argv[1:])
     ensure_pdf_index(PDF_URL)
-    print(chat_with_tools(question))
+    prompt = (
+        "You are given a question that may be a multiple choice single-answer, multiple choice multiple-answer, or true or false. "
+        "Always research on the internet and consult the provided document even if you think you know the answer. "
+        "Respond only with the letter(s) of the correct option separated by commas or 'True'/'False'. "
+        f"Question: {question}"
+    )
+    print(chat_with_tools(prompt))
 
 
 if __name__ == "__main__":
